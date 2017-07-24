@@ -1,0 +1,112 @@
+include "global.tbh"
+const CR_LF=chr(10)+chr(13)
+
+dim count as byte=0
+
+
+dim r as rtd_sensor_type
+'====================================================================
+sub on_sys_init()
+
+	r=PT1000   '<<====================================== SELECT DESIRED DEMO HERE
+
+	if tbt_rtd_init(YES)=NG then
+		sys.debugprint("SSI channel could not be allocated for the Temperature module (#22),  using bit banging instead."+CR_LF)
+	end if
+
+	dim status as byte=0
+	dim s as string=""
+
+	s=tbt22_rtd_fw_version()
+	if tbt22_rtd_config(tbt22_conversion_with_60_hz_mode,status,r)<>OK then goto rtd_config_fail
+	sys.debugprint("FW Version: "+s+CR_LF)
+	exit sub
+
+rtd_config_fail:
+	if status and RTD_FAULT_HIGH_THRESHOLD then
+		sys.debugprint("RTD High Threshold"+CR_LF)
+	end if
+
+	if status and RTD_FAULT_LOW_THRESHOLD then
+		sys.debugprint("RTD Low Threshold"+CR_LF)
+	end if
+
+	if status and RTD_FAULT_REFIN then
+		sys.debugprint("REFIN- > 0.85*Vbias"+CR_LF)
+	end if
+
+	if status and RTD_FAULT_REFIN_FORCE then
+		sys.debugprint("REFIN- < 0.85*Vbias"+CR_LF)
+	end if
+
+	if status and RTD_FAULT_RTDIN_FORCE then
+		sys.debugprint("RTDIN- < 0.85*Vbias"+CR_LF)
+	end if
+
+	if status and RTD_FAULT_VOLTAGE then
+		sys.debugprint("Over/Undervoltage"+CR_LF)
+	end if
+	
+	if status and RTD_CONFIG_CHECK then
+		sys.debugprint("RTD CONFIG CHECK"+CR_LF)
+	end if
+end sub
+
+sub on_sys_timer()
+	dim value as real
+	dim detect,status as byte
+	dim flag as no_yes=NO
+
+	tbt22_rtd_get_temperature(value,detect,status)
+
+	if detect and RTD_FAULT_DETECTION_FINISHED then
+		flag=YES
+		sys.debugprint("RTD Fault detection: finished"+CR_LF)
+	end if
+	if detect and RTD_FAULT_DETECTION_AUTOMATIC_FAULT then
+		flag=YES
+		sys.debugprint("RTD Fault detection: automatic fault"+CR_LF)
+	end if
+	if detect and RTD_FAULT_DETECTION_MANUAL_CYCLE_1 then
+		flag=YES
+		sys.debugprint("RTD Fault detection: manual 1"+CR_LF)
+	end if
+	if detect and RTD_FAULT_DETECTION_MANUAL_CYCLE_2 then
+		flag=YES
+		sys.debugprint("RTD Fault detection: manual 2"+CR_LF)
+	end if
+	if status and RTD_FAULT_HIGH_THRESHOLD then
+		flag=YES
+		sys.debugprint("RTD High Threshold"+CR_LF)
+		sys.debugprint("DATA:"+hex(value)+CR_LF)
+	end if
+	if status and RTD_FAULT_LOW_THRESHOLD then
+		flag=YES
+		sys.debugprint("RTD Low Threshold"+CR_LF)
+		sys.debugprint("DATA:"+hex(value)+CR_LF)
+	end if
+	if status and RTD_FAULT_REFIN then
+		flag=YES
+		sys.debugprint("REFIN- > 0.85*Vbias"+CR_LF)
+	end if
+	if status and RTD_FAULT_REFIN_FORCE then
+		flag=YES
+		sys.debugprint("REFIN- < 0.85*Vbias"+CR_LF)
+	end if
+	if status and RTD_FAULT_RTDIN_FORCE then
+		flag=YES
+		sys.debugprint("RTDIN- < 0.85*Vbias"+CR_LF)
+	end if
+	if status and RTD_FAULT_VOLTAGE then
+		flag=YES
+		sys.debugprint("Over/Undervoltage"+CR_LF)
+	end if
+
+	if flag=NO then
+		'sys.debugprint(ftostr(value,FTOSTR_MODE_AUTO,6)+" C"+CR_LF)
+		sys.debugprint(ftostr(value,FTOSTR_MODE_AUTO,6)+CR_LF)
+	else
+		'Clear the fault status and keep continue to aquire the data
+		tbt22_rtd_config(tbt22_conversion_with_60_hz_mode,status,r)
+	end if
+end sub

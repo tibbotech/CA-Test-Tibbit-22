@@ -1,0 +1,20 @@
+'DEFINES-------------------------------------------------------------
+
+#if PLATFROM_ID=TPP3W or PLATFORM_ID=TPP3WG2
+	#define TBT22_RTD_CLK_PIN PL_IO_NUM_9_TX0
+	#define TBT22_RTD_DATA_PIN PL_IO_NUM_8_RX0
+	#define TBT22_INT_PIN PL_IO_NUM_16_INT0
+#else
+	#define TBT22_RTD_CLK_PIN PL_IO_NUM_9_TX0
+	#define TBT22_RTD_DATA_PIN PL_IO_NUM_8_RX0
+	#define TBT22_INT_PIN PL_IO_NUM_16_INT0
+#endif
+
+
+#define TBT_RTD_DEBUG_PRINT 0
+'INCLUDES------------------------------------------------------------
+include "super_i2c.tbh"
+include "ssi\trunk\ssi.tbh"
+include "math.tbh"
+include "TBT22-RTD.tbh"
+'DECLARATIONS--------------------------------------------------------

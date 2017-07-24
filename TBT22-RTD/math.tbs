@@ -1,0 +1,63 @@
+'***********************************************************************************************************
+'											Math Function
+'***********************************************************************************************************
+const EPS=0.00000001
+
+function abs(x as real)as real
+	abs=x
+	if x<0 then
+		abs=-abs
+	end if
+end function
+
+function sqrt(x as real, byref r as real)as ok_ng
+	'Babylonian method, newton method
+	dim  x0,x1 as real
+	
+	sqrt=NG
+	if x<0 then exit function
+
+	x0=0.5*x
+	x1=0.5*(x0+x/x0)
+    
+    if x=0.0  then exit function
+
+	while (x0>x1+EPS) or (x1 >x0+EPS)
+		x0=x1
+		x1=0.5*(x0+x/x0)
+	wend
+
+	sqrt=OK
+	r=x1
+end function
+
+function pow(x as real, y as byte)as real
+	dim i as byte
+
+	pow=1
+	if y=0 then exit function
+
+	for i=0 to y-1
+		pow=pow*x
+	next i
+end function
+
+function exp(x as real)as real
+	dim ans1 as real
+	dim ans2 as real=1.0
+
+	dim fact as real=1
+	dim cnt as real =2.0
+	dim xn as real
+	
+	xn=x
+
+	while((ans1 > ans2 + EPS) or (ans2 > ans1 + EPS))
+		ans1 =ans2
+		ans2 = ans1+ (xn/fact)
+		fact=fact*cnt
+		xn = xn*x
+		cnt=cnt+1.0
+	wend
+	exp=ans2
+end function
