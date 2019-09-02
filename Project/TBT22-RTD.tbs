@@ -282,7 +282,7 @@ leave_with_ok:
 	c = 1.0 - (resistance/rtd_resistance)
 	d = b_sq - 2.0 * a2 * c
 
-	sqrt(d, data)
+	sqroot(d, data)
 	data = (-RTD_A + data)/a2
 end function
 
