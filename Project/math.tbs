@@ -10,11 +10,11 @@ function abs(x as real)as real
 	end if
 end function
 
-function sqrt(x as real, byref r as real)as ok_ng
+function sqroot(x as real, byref r as real)as ok_ng
 	'Babylonian method, newton method
 	dim  x0,x1 as real
 	
-	sqrt=NG
+	sqroot=NG
 	if x<0 then exit function
 
 	x0=0.5*x
@@ -27,7 +27,7 @@ function sqrt(x as real, byref r as real)as ok_ng
 		x1=0.5*(x0+x/x0)
 	wend
 
-	sqrt=OK
+	sqroot=OK
 	r=x1
 end function
 

@@ -1,4 +1,4 @@
 declare function abs(x as real)as real
-declare function sqrt(x as real, byref r as real)as ok_ng
+declare function sqroot(x as real, byref r as real)as ok_ng
 declare function pow(x as real, y as byte)as real
 declare function exp(x as real)as real
