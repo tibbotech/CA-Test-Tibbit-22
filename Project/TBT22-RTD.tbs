@@ -66,11 +66,7 @@ function tbt_rtd_init(use_ssi as no_yes)as ok_ng
 	if i2c_num_rtd<4 then
 		ssi.channel = i2c_num_rtd
 		ssi.enabled = NO
-#if PLATFORM_TYPE_32
-		ssi.baudrate = 150
-#else
-		ssi.baudrate = 50
-#endif
+		ssi.baudrate = PL_SSI_BAUDRATES_100kHz	
 		ssi.clkmap = TBT22_RTD_CLK_PIN
 		ssi.dimap = TBT22_RTD_DATA_PIN
 		ssi.domap = TBT22_RTD_DATA_PIN
