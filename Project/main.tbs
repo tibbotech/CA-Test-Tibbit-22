@@ -2,7 +2,7 @@ include "global.tbh"
 const CR_LF=chr(10)+chr(13)
 
 dim count as byte=0
-
+dim TBT22_S1_CHANNEL_NUM as byte
 
 dim r as rtd_sensor_type
 '====================================================================
@@ -10,15 +10,15 @@ sub on_sys_init()
 
 	r=PT1000   '<<====================================== SELECT DESIRED DEMO HERE
 
-	if tbt_rtd_init(YES)=NG then
+	if tbt_rtd_init("TBT22_S1", TBT22_RTD_DATA_PIN, TBT22_RTD_CLK_PIN, TBT22_INT_PIN, TBT22_S1_CHANNEL_NUM, YES)=NG then
 		sys.debugprint("SSI channel could not be allocated for the Temperature module (#22),  using bit banging instead."+CR_LF)
 	end if
 
 	dim status as byte=0
 	dim s as string=""
 
-	s=tbt22_rtd_fw_version()
-	if tbt22_rtd_config(tbt22_conversion_with_60_hz_mode,status,r)<>OK then goto rtd_config_fail
+	s=tbt22_rtd_fw_version(TBT22_S1_CHANNEL_NUM)
+	if tbt22_rtd_config(tbt22_conversion_with_60_hz_mode,r,TBT22_INT_PIN,TBT22_S1_CHANNEL_NUM)<>OK then goto rtd_config_fail
 	sys.debugprint("FW Version: "+s+CR_LF)
 	exit sub
 
@@ -57,7 +57,7 @@ sub on_sys_timer()
 	dim detect,status as byte
 	dim flag as no_yes=NO
 
-	tbt22_rtd_get_temperature(value,detect,status)
+	tbt22_rtd_get_temperature(value,detect,status,TBT22_INT_PIN,TBT22_S1_CHANNEL_NUM)
 
 	if detect and RTD_FAULT_DETECTION_FINISHED then
 		flag=YES
@@ -107,6 +107,6 @@ sub on_sys_timer()
 		sys.debugprint(ftostr(value,FTOSTR_MODE_AUTO,6)+CR_LF)
 	else
 		'Clear the fault status and keep continue to aquire the data
-		tbt22_rtd_config(tbt22_conversion_with_60_hz_mode,status,r)
+		tbt22_rtd_config(tbt22_conversion_with_60_hz_mode,r,TBT22_INT_PIN,TBT22_S1_CHANNEL_NUM)
 	end if
 end sub
