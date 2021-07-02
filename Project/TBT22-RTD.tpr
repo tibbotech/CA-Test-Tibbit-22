@@ -1,7 +1,7 @@
 [project]
 version=1
-platform=TPP2W(G2)
-src_lib_ver=2_01_03
+platform=TPP3W(G2)
+src_lib_ver=2_01_04
 name=TBT22-RTD
 output=TBT22-RTD.tpc
 debug=on
@@ -22,7 +22,7 @@ address=0.36.119.82.139.78
 [address4]
 platform=TPP3W(G2)
 transport=udp_winpcap
-address=0.36.119.82.169.155
+address=0.36.119.86.88.187
 [address5]
 platform=TPP3W
 transport=udp_winpcap
@@ -88,14 +88,14 @@ condition=
 locked=yes
 location=commonlib
 [file9]
-path=TBT22-RTD.tbh
+path=tbt22.tbh
 type=header
 format=
 condition=
 locked=no
 location=project
 [file10]
-path=TBT22-RTD.tbs
+path=tbt22.tbs
 type=basic
 format=
 condition=

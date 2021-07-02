@@ -50,7 +50,7 @@ type tbt22_type
 	tbt22_normal_0_resistance(TBT22_MAX_NUM_OF_SOCKS) as real
 end type
 
-declare function tbt_rtd_init(signature as string, data_pin as byte, clk_pin as byte, int_pin as byte, byref tbt_channel as byte, use_ssi as no_yes)as ok_ng
+declare function tbt_rtd_init(signature as string, data_pin as byte, clk_pin as byte, int_pin as byte, rst_pin as byte, byref tbt_channel as byte, use_ssi as no_yes)as ok_ng
 ' Call this function to initialize the Tibbit.
 ' Use_ssi argument specifies whether you want to communicate with this Tibbit using the SSI channel running in the I2C mode (YES), or
 ' go for direct I/O manipulation a.k.a. bit-banging (NO).

@@ -4,16 +4,18 @@
 	#define TBT22_RTD_CLK_PIN PL_IO_NUM_9_TX0
 	#define TBT22_RTD_DATA_PIN PL_IO_NUM_8_RX0
 	#define TBT22_INT_PIN PL_IO_NUM_16_INT0
+	#define TBT22_RST_PIN PL_IO_NUM_0
 #else
 	#define TBT22_RTD_CLK_PIN PL_IO_NUM_9_TX0
 	#define TBT22_RTD_DATA_PIN PL_IO_NUM_8_RX0
 	#define TBT22_INT_PIN PL_IO_NUM_16_INT0
+	#define TBT22_RST_PIN PL_IO_NUM_0
 #endif
 
 
 #define TBT_RTD_DEBUG_PRINT 0
 'INCLUDES------------------------------------------------------------
-include "super_i2c\trunk\super_i2c.tbh"
+include "super_i2c.tbh"
 include "ssi\trunk\ssi.tbh"
 include "math.tbh"
 include "tbt22.tbh"

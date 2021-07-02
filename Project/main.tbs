@@ -8,9 +8,9 @@ dim r as rtd_sensor_type
 '====================================================================
 sub on_sys_init()
 
-	r=PT1000   '<<====================================== SELECT DESIRED DEMO HERE
+	r=PT100   '<<====================================== SELECT DESIRED DEMO HERE
 
-	if tbt_rtd_init("TBT22_S1", TBT22_RTD_DATA_PIN, TBT22_RTD_CLK_PIN, TBT22_INT_PIN, TBT22_S1_CHANNEL_NUM, YES)=NG then
+	if tbt_rtd_init("TBT22_S1", TBT22_RTD_DATA_PIN, TBT22_RTD_CLK_PIN, TBT22_INT_PIN, TBT22_RST_PIN, TBT22_S1_CHANNEL_NUM, YES)=NG then
 		sys.debugprint("SSI channel could not be allocated for the Temperature module (#22),  using bit banging instead."+CR_LF)
 	end if
 
